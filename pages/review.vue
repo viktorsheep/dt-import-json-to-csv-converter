@@ -13,13 +13,26 @@
       </el-col>
     </el-row>
 
+    <el-row style="margin-top: 10px;">
+      <el-col :span="16">
+        &nbsp;
+      </el-col>
+      <el-col :span="8">
+        <el-input
+          v-model="search"
+          size="mini"
+          placeholder="Type to search"
+        />
+      </el-col>
+    </el-row>
+
     <el-row
       v-if="!convertStatus"
     >
       <el-col>
         <el-table
           v-if="headers.length !== 0"
-          :data="paginatedJSON"
+          :data="paginatedJSON.filter(data => !search || data.Name.toLowerCase().includes(search.toLowerCase()))"
           style="width: 100%"
           size="mini"
         >
@@ -34,6 +47,7 @@
             width="100"
             align="center"
           >
+            <template slot="header" />
             <template slot-scope="scope">
               <el-button
                 type="danger"
@@ -124,7 +138,8 @@ export default {
       paginatedJSON: [],
       formattedHeaders: [],
       convertStatus: false,
-      linkValue: ''
+      linkValue: '',
+      search: ''
     }
   },
 
@@ -147,6 +162,8 @@ export default {
           this.formattedHeaders.push(h)
         }
       })
+
+      console.log(this.formattedHeaders)
     }
   },
 
