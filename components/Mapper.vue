@@ -292,7 +292,7 @@ export default {
                 name: ch,
                 rename: ch,
                 idx: (this.headers.length + 1),
-                importStat: true,
+                importStat: false,
                 dataRule: {
                   value: 'Same value',
                   conditions: {
@@ -358,15 +358,15 @@ export default {
             if (h.dataRule.value === 'Same value') {
               if (churchData[h.name] === undefined) {
                 if (h.dataRule.conditions.fallback.status) {
-                  cd.push('"' + fallbackValue + '"')
-                  cdJSON[h.rename] = fallbackValue
+                  cd.push('"' + fallbackValue.toString().trim() + '"')
+                  cdJSON[h.rename] = fallbackValue.toString().trim()
                 } else {
-                  cd.push(churchData[h.name])
-                  cdJSON[h.rename] = churchData[h.name]
+                  cd.push(churchData[h.name].toString().trim())
+                  cdJSON[h.rename] = churchData[h.name].toString().trim()
                 }
               } else {
-                cd.push(churchData[h.name])
-                cdJSON[h.rename] = churchData[h.name]
+                cd.push(churchData[h.name].toString().trim())
+                cdJSON[h.rename] = churchData[h.name].toString().trim()
               }
             } else if (h.dataRule.value === 'Yes / No if present') {
               churchData[h.name] !== undefined
@@ -379,24 +379,24 @@ export default {
             } else if (h.dataRule.value === 'Merge with other cell') {
               if (churchData[h.name] === undefined) {
                 if (h.dataRule.conditions.fallback.status) {
-                  cd.push(fallbackValue)
-                  cdJSON[h.rename] = fallbackValue
+                  cd.push(fallbackValue.toString().trim())
+                  cdJSON[h.rename] = fallbackValue.toString().trim()
                 } else {
                   cd.push(h.dataRule.conditions.merge.joiner + churchData[h.dataRule.conditions.merge.fieldName] === undefined
                     ? ''
-                    : churchData[h.dataRule.conditions.merge.fieldName]
+                    : churchData[h.dataRule.conditions.merge.fieldName] === undefined ? '' : churchData[h.dataRule.conditions.merge.fieldName].toString().trim()
                   )
 
                   cdJSON[h.rename] = h.dataRule.conditions.merge.joiner + churchData[h.dataRule.conditions.merge.fieldName] === undefined
                     ? ''
-                    : churchData[h.dataRule.conditions.merge.fieldName]
+                    : churchData[h.dataRule.conditions.merge.fieldName] === undefined ? '' : churchData[h.dataRule.conditions.merge.fieldName].toString().trim()
                 }
               } else {
-                cd.push(churchData[h.name] + h.dataRule.conditions.merge.joiner + churchData[h.dataRule.conditions.merge.fieldName])
-                cdJSON[h.rename] = churchData[h.name] + h.dataRule.conditions.merge.joiner + churchData[h.dataRule.conditions.merge.fieldName]
+                cd.push(churchData[h.name].toString().trim() + h.dataRule.conditions.merge.joiner + churchData[h.dataRule.conditions.merge.fieldName].toString().trim())
+                cdJSON[h.rename] = churchData[h.name].toString().trim() + h.dataRule.conditions.merge.joiner + churchData[h.dataRule.conditions.merge.fieldName].toString().trim()
               }
             } else {
-              cd.push(fallbackValue !== '' ? fallbackValue : '')
+              cd.push(fallbackValue !== '' ? fallbackValue.toString().trim() : '')
               cdJSON[h.rename] = ''
             }
           }
